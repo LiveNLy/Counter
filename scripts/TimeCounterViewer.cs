@@ -7,7 +7,6 @@ public class TimeCounterViewer : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private TimeCounter _timer;
 
-
     private void Start()
     {
         _text.text = "";
@@ -23,9 +22,8 @@ public class TimeCounterViewer : MonoBehaviour
         _timer.TimerDrowing -= DisplayTimer;
     }
 
-    public void DisplayTimer()
+    public void DisplayTimer(int number)
     {
-        float time = _timer.CurrentTime;
-        _text.text = time.ToString();
+        _text.text = number.ToString();
     }
 }

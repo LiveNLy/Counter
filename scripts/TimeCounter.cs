@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class TimeCounter : MonoBehaviour
 {
-    public event Action TimerDrowing;
+    public event Action<int> TimerDrowing;
+    private int _currentCounterNumber = 0;
     private Coroutine _coroutine;
-    private bool IsWorking = true;
-    private int _currentTime = 0;
-    public int CurrentTime => _currentTime;
+    private bool _isWorking = true;
+    private float _timeDelay = 0.5f;
 
     private void Start()
     {
-        _coroutine = StartCoroutine(SetTime(0.5f));
+        _coroutine = StartCoroutine(SetTime(_timeDelay));
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (IsWorking)
+            if (_isWorking)
             {
-                IsWorking = false;
+                _isWorking = false;
                 StopCoroutine(_coroutine);
             }
             else
             {
-                IsWorking=true;
-                _coroutine = StartCoroutine(SetTime(0.5f));
+                _isWorking=true;
+                _coroutine = StartCoroutine(SetTime(_timeDelay));
             }
         }
     }
@@ -37,10 +37,10 @@ public class TimeCounter : MonoBehaviour
         var wait = new WaitForSeconds(delay);
         int finishTime = 1000;
 
-        while (_currentTime < finishTime)
+        while (_currentCounterNumber < finishTime)
         {
-            _currentTime++;
-            TimerDrowing?.Invoke();
+            _currentCounterNumber++;
+            TimerDrowing?.Invoke(_currentCounterNumber);
             yield return wait;
         }
     }
